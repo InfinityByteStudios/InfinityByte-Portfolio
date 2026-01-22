@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - Gymscribe</title>
+    
+    <meta name="description" content="An open source gym membership management app.">
+    <meta name="keywords" content="gym, gym management, gym members">
+    <meta name="author" content="Alaric Abyasa">
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="icon" type="image/x-icon" href="/assets/img/Gymscribe.png">
+    
+    <link rel="stylesheet" href="/assets/css/analytics.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0" defer></script>
+    <script src="/assets/js/navbarResponsive.js" defer></script>
+    <script type="module" src="/assets/js/journals.js"></script>
+    <script type="module" src="/assets/js/handler.js"></script>
+    <script type="module" src="/assets/js/getGymInfo.js"></script>
+    <script type="module" src="/assets/js/attendance.js"></script>
+    <script type="module" src="/assets/js/analytics.js"></script>
+</head>
+<body>
+    <div class="navbar">
+      <div class="logo-container">
+        <a href="/" class="logo"><img src="/assets/img/Gymscribe.png" alt="Gymscribe Logo"></a>
+        <span>Dashboard</span>
+      </div>
+      
+      <div class="burger-container">
+        <div class="burger" onclick="toggleMenu()">☰</div>
+      </div>
+      
+      <div class="menu">
+        <a href="/dashboard/analytics.html">Analytics</a>
+        <a href="/dashboard/members.html">Members</a>
+        <a href="/dashboard/gym.html">Gym</a>
+        <a href="/dashboard/api.html">API</a>
+        <div class="account">
+          <h2 id="accountEmail">account@email.com</h2>
+          <button id="logout" class="logout">LOG OUT</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="main">
+      <div class="dash-gym-info">
+        <h1>Analytics</h1>
+        <div class="gym-info-container">
+          <p id="gymInfoName" class="gym-name">Untitled Gym</p>
+          <p id="gymInfoId" class="gym-id">ID: 010120251234567890</p>
+          <p id="gymInfoDate" class="date-gym-info">Monday, 01/01/2025</p>
+        </div>
+      </div>
+      
+      <div class="analytics">
+        <div class="box-container">
+          <div class="box">
+            <p class="box-title">All Members</p>
+            <p id="allCount" class="box-count">Loading</p>
+          </div>
+          <div class="box">
+            <p class="box-title">Active</p>
+            <p id="activeCount" class="box-count">Loading</p>
+          </div>
+          <div class="box">
+            <p class="box-title">Expires Soon</p>
+            <p id="expiresSoonCount" class="box-count">Loading</p>
+          </div>
+          <div class="box">
+            <p class="box-title">Expired</p>
+            <p id="expiredCount" class="box-count">Loading</p>
+          </div>
+        </div>
+        <div class="data-container">
+          <div class="chart-container">
+            <canvas id="attendanceChart" class="chart"></canvas>
+          </div>
+          <div class="raw-data-container">
+            <p class="raw-data">Today Stats:</p>
+            <p id="attendedCount" class="raw-data">Attended: Loading</p>
+            <p id="absenceCount" class="raw-data">Absence: Loading</p>
+            <a class="raw-data-button" href="/dashboard/members.html">Manage</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="lower-section">
+        <div class="expires-soon">
+          <h1>Expires Soon</h1>
+          <div id="expiresSoonContainer" class="member-container">
+            <p>Loading...</p>
+          </div>
+        </div>
+        <div class="journals">
+          <h1>Journals</h1>
+          <div id="journalContainer" class="journal-container">
+            <div class="journal">
+              
+            </div>
+          </div>
+          <form id="journalForm" class="journal-manager">
+            <input id="journalTitleInput"  maxlength="20" placeholder="Add journal title..." type="text" required>
+            <textarea id="journalDescInput" maxlength="50" cols="40" placeholder="Add journal description..." required></textarea>
+            <button type="submit" class="add-journal">New Journal</button>
+          </form>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

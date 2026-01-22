@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gymscribe</title>
+    
+    <meta name="description" content="An open source gym membership management app.">
+    <meta name="keywords" content="gym, gym management, gym members">
+    <meta name="author" content="Alaric Abyasa">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Gymscribe - Gym Management App">
+    <meta property="og:description" content="An open source gym membership management app.">
+    <meta property="og:url" content="https://gymscribe.vercel.app">
+    <meta property="og:image" content="/assets/img/GymscribeBanner.png">
+    <meta property="og:site_name" content="Gymscribe">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gymscribe - Gym Management App">
+    <meta name="twitter:description" content="An open source gym membership management app.">
+    <meta name="twitter:image" content="/assets/img/GymscribeBanner.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://gymscribe.vercel.app">
+    <link rel="icon" type="image/x-icon" href="/assets/img/Gymscribe.png">
+    
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="/assets/js/scrollReveal.js" defer></script>
+    <script src="/assets/js/navbarResponsive.js" defer></script>
+    <script src="/assets/js/index.js" defer></script>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+      <div class="logo-container">
+        <a href="/" class="logo"><img src="/assets/img/Gymscribe.png" alt="Gymscribe Logo"></a>
+        <span>Gymscribe</span>
+      </div>
+      
+      <div class="burger-container">
+        <div class="burger" onclick="toggleMenu()">☰</div>
+      </div>
+      
+      <nav class="menu">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="https://github.com/alarixfr/gymscribe" target="_blank" rel="noopener noreferrerr">Github</a>
+        <a href="login.html">Dashboard</a>
+      </nav>
+    </div>
+    
+    <main>
+      <!-- HERO -->
+      <section class="hero">
+        <h1>A Gym Membership<br>Management App.</h1>
+        <p>Gymscribe lets you track and manage your gym members memberships professionally and backup data online for free.</p>
+        <a href="login.html">Get Started</a>
+      </section>
+      
+      <!-- Features -->
+      <section class="features" id="features">
+        <h2>Why Gymscribe?</h2>
+        <p>We offer a gym memberships app that actually amazing for gyms owner.</p>
+        
+        <div class="feature">
+          <div class="feature-container load-hidden">
+            <div>
+              <h3>Free And Open Source</h3>
+              <p>Gymscribe is free to use and open source for gym owners and everyone.</p>
+            </div>
+            <img src="/assets/img/Banner1.png" alt="Gymscribe Github">
+          </div>
+          
+          <div class="feature-container load-hidden">
+            <div>
+              <h3>Manage Memberships</h3>
+              <p>Manage your gym members with detailed dashboard, view active and expired members.</p>
+            </div>
+            <img src="/assets/img/Banner2.png" alt="Manage Memberships">
+          </div>
+          
+          <div class="feature-container load-hidden">
+            <div>
+              <h3>Track Attendance</h3>
+              <p>Mark absence member or when they attend every day and saves last 7 days of attendance data.</p>
+            </div>
+            <img src="/assets/img/Banner3.png" alt="Track Memberships">
+          </div>
+          
+          <div class="feature-container load-hidden">
+            <div>
+              <h3>Gym API</h3>
+              <p>Get your gym data including members list in a JSON format with RESTAPI to use it for other application.</p>
+            </div>
+            <img src="/assets/img/Banner5.png" alt="Gym API">
+          </div>
+        </div>
+      </section>
+      
+      <!-- Pricing -->
+      <section class="pricing" id="pricing">
+        <h2>Pricing</h2>
+        <p>Gymscribe offers two plans for your account.</p>
+        
+        <div class="plans">
+          <div class="plans-container load-hidden" id="plan-free">
+            <h3>Free Plan</h3>
+            <p>Manage and track members</p>
+            <ul>
+              <li>Up to 100 members</li>
+              <li>Manage members</li>
+              <li>Track attendance</li>
+              <li>Journals</li>
+              <li>Gym API</li>
+              <li>Cloud backup</li>
+            </ul>
+            <h3>$0/mo</h3>
+            <a class="plans-button" href="login.html">Get Started</a>
+          </div>
+          <!--
+          <div class="plans-container load-hidden" id="plan-maximum">
+            <h3>Maximum</h3>
+            <p>Upgraded version</p>
+            <ul>
+              <li>Up to 10 gyms</li>
+              <li>Up to 500 members</li>
+              <li>Add up to 10 staffs</li>
+              <li>AI data summary</li>
+              <li>Manage members</li>
+              <li>Cloud backup</li>
+            </ul>
+            <h3>$29/Lifetime</h3>
+            <a class="plans-button" href="login.html">Get Started</a>
+          </div>
+          -->
+        </div>
+      </section>
+      
+      <!-- CTA -->
+      <section class="cta load-hidden">
+        <h1>Just a few clicks away.</h1>
+        <p>Make accounts and access your dashboard now, it's free!</p>
+        <a href="login.html">Get Started</a>
+      </section>
+    
+    <!-- Footer -->
+    <section class="footer">
+      <div class="footer-container">
+        <img src="/assets/img/Gymscribe.png" alt="Gymscribe Logo">
+        <h2>Gymscribe</h2>
+        <p>Your ultimate gym management app.</p>
+        <p class="copyright">© 2025 Gymscribe. All rights reserved.</p>
+      </div>
+       <a href="login.html">Login</a>
+    </section>
+  </main>
+</body>
+</html>

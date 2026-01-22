@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+  -webkit-tap-hightlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+a:focus, a:active {
+  outline: none;
+  box-sizing: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Outfit', Sans-Serif;
+  background-color: #151515;
+  min-height: 100vh;
+}
+
+html.sr .load-hidden {
+  visibility: hidden;
+}
+
+.main {
+  border: 2px solid white;
+  padding: 1.4rem;
+  margin: 2rem;
+}
+
+h1 {
+  color: white;
+}
+
+a {
+  color: blue;
+}

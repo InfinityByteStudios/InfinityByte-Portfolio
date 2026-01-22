@@ -1,0 +1,159 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+  -webkit-tap-hightlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+a:focus, a:active {
+  outline: none;
+  box-sizing: none;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Outfit', Sans-Serif;
+  background-color: #151515;
+  min-height: 100vh;
+}
+
+html.sr .load-hidden {
+  visibility: hidden;
+}
+
+#main {
+  margin: 1rem;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.1rem 0.8rem;
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+#form-select {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+#login-btn {
+  flex-grow: 1;
+}
+
+#register-btn {
+  flex-grow: 1;
+}
+
+#form-container {
+  width: 100%;
+  gap: 1rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  width: 100%;
+  border: none;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+}
+
+label {
+  font-size: 1.1rem;
+}
+
+#email-input {
+  margin-bottom: 0.4rem;
+}
+
+#password-input {
+  margin-bottom: 0.4rem;
+}
+
+#confirm-password {
+  margin-bottom: 0.4rem;
+}
+
+#form-info {
+  color: white;
+}
+
+button {
+  border: 2px solid #000;
+  box-shadow: 2px 2px #000;
+  display: inline-block;
+  transition: all 0.2s ease-out;
+}
+
+.select-button {
+  font-size: 1.1rem;
+  padding: 0.4rem;
+  background: background: rgba(255,255,255,1);;
+}
+
+.select-button:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.select-button:active {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+#form-submit {
+  background: rgba(46,139,87,1);
+  margin-top: 0.4rem;
+  width: 100%;
+  padding: 0.8rem 0.4rem;
+  font-size: 1.4rem;
+}
+
+#form-submit:hover {
+  background: rgba(46,139,87,0.6);
+}
+
+#form-submit:active {
+  background: rgba(46,139,87,0.25);
+}
+
+.active-btn {
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0px 2px #fff;
+}
+
+.captcha-info {
+  margin-bottom: 0.2rem;
+}
+
+#error-container {
+  width: 100%;
+}
+
+#error-container p {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
+}
+
+#logo {
+  width: 25%;
+  pointer-events: none;
+  user-select: none;
+  filter: brightness(0) invert(1);
+}

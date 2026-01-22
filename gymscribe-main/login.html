@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Gymscribe</title>
+    
+    <meta name="description" content="An open source gym membership management app.">
+    <meta name="keywords" content="gym, gym management, gym members">
+    <meta name="author" content="Alaric Abyasa">
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="icon" type="image/x-icon" href="/assets/img/Gymscribe.png">
+    
+    <link rel="stylesheet" href="/assets/css/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    
+    <script type="module" src="https://cdn.jsdelivr.net/gh/altcha-org/altcha/dist/altcha.min.js"></script>
+    <script type="module" src="/assets/js/altcha.js"></script>
+    <script type="module" src="/assets/js/handler.js"></script>
+    <script type="module" src="/assets/js/login.js"></script>
+</head>
+<body>
+    <div id="main">
+      <img id="logo" src="/assets/img/Gymscribe.png">
+      <h1 id="form-info">Welcome Back!</h1>
+      <div id="form-select">
+        <button id="login-btn" class="select-button">Login</button>
+        <button id="register-btn" class="select-button">Register</button>
+      </div>
+      <div id="form-container">
+        <form>
+          <label for="email-input">Email</label>
+          <input id="email-input" type="email" placeholder="Type email here..." maxlength="100" required>
+          <label for="password-input">Password</label>
+          <input id="password-input" type="password" placeholder="Secret password here..." maxlength="100" required>
+          <label class="confirm-password" for="confirm-password">Confirm Password</label>
+          <input class="confirm-password" id="confirm-password" type="password" placeholder="Confirm password here..." maxlength="100" required>
+          <p class="captcha-info">Captcha: (this may takes a few minutes)</p>
+          <altcha-widget challengeurl="https://gymscribe.up.railway.app/auth/challenge" credentials="omit"></altcha-widget>
+          <button id="form-submit" type="submit">Login</button>
+          <div id="error-container">
+            <p id="error-message">Error: 1234567890</p>
+          </div>
+        </form>
+      </div>
+    </div>
+</body>
+</html>

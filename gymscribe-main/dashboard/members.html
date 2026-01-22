@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Members - Gymscribe</title>
+    
+    <meta name="description" content="An open source gym membership management app.">
+    <meta name="keywords" content="gym, gym management, gym members">
+    <meta name="author" content="Alaric Abyasa">
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="icon" type="image/x-icon" href="/assets/img/Gymscribe.png">
+    
+    <link rel="stylesheet" href="/assets/css/members.css">
+    <link rel="stylesheet" href="/assets/css/modal.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0" defer></script>
+    <script src="/assets/js/scrollReveal.js" defer></script>
+    <script src="/assets/js/navbarResponsive.js" defer></script>
+    <script type="module" src="/assets/js/handler.js"></script>
+    <script type="module" src="/assets/js/getGymInfo.js"></script>
+    <script type="module" src="/assets/js/modal.js"></script>
+    <script type="module" src="/assets/js/members.js"></script>
+</head>
+<body>
+    <div class="navbar">
+      <div class="logo-container">
+        <a href="/" class="logo"><img src="/assets/img/Gymscribe.png" alt="Gymscribe Logo"></a>
+        <span>Dashboard</span>
+      </div>
+      
+      <div class="burger-container">
+        <div class="burger" onclick="toggleMenu()">☰</div>
+      </div>
+      
+      <div class="menu">
+        <a href="/dashboard/analytics.html">Analytics</a>
+        <a href="/dashboard/members.html">Members</a>
+        <a href="/dashboard/gym.html">Gym</a>
+        <a href="/dashboard/api.html">API</a>
+        <div class="account">
+          <h2 id="accountEmail">account@email.com</h2>
+          <button id="logout" class="logout">LOG OUT</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="main">
+      <div class="dash-gym-info">
+        <h1>Members</h1>
+        <div class="gym-info-container">
+          <p id="gymInfoName" class="gym-name">Untitled Gym</p>
+          <p id="gymInfoId" class="gym-id">ID: 010120251234567890</p>
+          <p id="gymInfoDate" class="date-gym-info">Monday, 01/01/2025</p>
+        </div>
+      </div>
+      
+      <div class="members">
+        <div class="manager">
+          <h1 class="container-title">Add New Member</h1>
+          <form id="memberForm" class="member-form">
+            <label for="memberNameInput">Full Name:</label>
+            <input id="memberNameInput"  maxlength="30" placeholder="Member name..." type="text" required>
+            <label for="memberEmailInput">Email: (optional)</label>
+            <input id="memberEmailInput" maxlength="30" placeholder="Member email..." type="email">
+            <label for="memberPhoneInput">Phone Number: (optional)</label>
+            <input id="memberPhoneInput" maxlength="20" placeholder="Member phone number..." type="number">
+            <label for="memberBirthdayInput">Birthday: (optional)</label>
+            <input id="memberBirthdayInput" type="date">
+            <label for="memberNoteInput">Note: (optional)</label>
+            <textarea id="memberNoteInput" maxlength="30" cols="20" placeholder="Add note..."></textarea>
+            <label for="memberPlansInput" class="plans-select">Select Plans:</label>
+            <select id="memberPlansInput" class="plans-select">
+              <option value="monthly">Monthly (30d)</option>
+              <option value="yearly">Yearly (365d)</option>
+              <option value="lifetime">Lifetime (Inf)</option>
+            </select>
+            <button id="submit" type="submit" class="submit-button">Add Member</button>
+          </form>
+          <div class="manager-notes">
+            <p class="info">Plans are calculated after member data creation</p>
+          </div>
+        </div>
+        
+        <div class="members-container">
+          <div class="container-header">
+            <h1 class="container-title">Member List</h1>
+            <button id="exportBtn" class="export-button">Export To .CSV</button>
+          </div>
+          <div class="filter">
+            <div id="filterForm" class="filter-form">
+              <label for="filterInput">Search for members:</label>
+              <input id="filterInput" placeholder="Filters by name or id..." maxlength="100" type="text">
+              
+              <label for="filterStatusInput">Search by status:</label>
+              <select id="filterStatusInput">
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="expiressoon">Expires Soon</option>
+                <option value="expired">Expired</option>
+              </select>
+              
+              <label for="filterAttendanceInput">Search by attendance:</label>
+              <select id="filterAttendanceInput">
+                <option value="all">All</option>
+                <option value="checkedin">Checked-In</option>
+                <option value="absence">Absence</option>
+              </select>
+            </div>
+          </div>
+          <div id="member-list" class="member-list">
+            <p class="member-list-info">Loading members...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!--
+    <div class="member">
+      <div class="member-info">
+        <h3 class="member-name">Alarixfr for real</h3>
+        <p class="member-id">ID: 010120351234567890</p>
+        <p class="member-status">Status: Active</p>
+        <p class="member-duration">Expires in 67h</p>
+        <p class="member-attendance">Attendance: Checked-in</p>
+      </div>
+      <div class="member-buttons">
+        <div class="action-buttons">
+          <button class="view-btn yellow-button">View Details</button>
+          <button class="edit-btn blue-button">Edit</button>
+          <button class="renew-btn cyan-button">Renew</button>
+          <button class="remove-btn red-button">Remove</button>
+        </div>
+        <div class="attendance-buttons">
+          <button class="attendance-btn">Mark As Attended</button>
+        </div>
+      </div>
+    </div>
+              
+    <div class="modal-backdrop">
+      <div class="modal">
+        <h1 class="modal-title">Details</h1>
+        <div class="modal-container">
+          <h3>Email:</h3>
+          <p>account@email.com</p>
+          <h3>Phone:</h3>
+          <p>1234567890</p>
+          <h3>Birthday:</h3>
+          <p>01/01/2026</p>
+          <h3>Note:</h3>
+          <p>Awawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawa</p>
+        </div>
+        <div class="modal-buttons">
+          <button class="red-button">Close</button>
+        </div>
+      </div>
+    </div>
+    -->
+</body>
+</html>

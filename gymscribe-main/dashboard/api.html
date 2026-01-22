@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API - Gymscribe</title>
+    
+    <meta name="description" content="An open source gym membership management app.">
+    <meta name="keywords" content="gym, gym management, gym members">
+    <meta name="author" content="Alaric Abyasa">
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="icon" type="image/x-icon" href="/assets/img/Gymscribe.png">
+    
+    <link rel="stylesheet" href="/assets/css/api.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0" defer></script>
+    <script src="/assets/js/scrollReveal.js" defer></script>
+    <script src="/assets/js/navbarResponsive.js" defer></script>
+    <script type="module" src="/assets/js/handler.js"></script>
+    <script type="module" src="/assets/js/getGymInfo.js"></script>
+    <script type="module" src="/assets/js/api.js"></script>
+</head>
+<body>
+    <div class="navbar">
+      <div class="logo-container">
+        <a href="/" class="logo"><img src="/assets/img/Gymscribe.png" alt="Gymscribe Logo"></a>
+        <span>Dashboard</span>
+      </div>
+      
+      <div class="burger-container">
+        <div class="burger" onclick="toggleMenu()">☰</div>
+      </div>
+      
+      <div class="menu">
+        <a href="/dashboard/analytics.html">Analytics</a>
+        <a href="/dashboard/members.html">Members</a>
+        <a href="/dashboard/gym.html">Gym</a>
+        <a href="/dashboard/api.html">API</a>
+        <div class="account">
+          <h2 id="accountEmail">account@email.com</h2>
+          <button id="logout" class="logout">LOG OUT</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="main">
+      <div class="dash-gym-info">
+        <h1>API</h1>
+        <div class="gym-info-container">
+          <p id="gymInfoName" class="gym-name">Untitled Gym</p>
+          <p id="gymInfoId" class="gym-id">ID: 010120251234567890</p>
+          <p id="gymInfoDate" class="date-gym-info">Monday, 01/01/2025</p>
+        </div>
+      </div>
+      
+      <div class="api-container">
+        <h1 class="method">GET</h1>
+        <div class="api">
+          <h2>Don't share your token!</h2>
+          <button id="token" class="yellow-button">Copy Token</button>
+        </div>
+        <div class="api">
+          <h2>V1</h2>
+          <p id="api-url">URL: Unavailable</p>
+        </div>
+        <div class="api">
+          <h2>/api/v1/gym?token={your token}</h2>
+          <p>Fetch the gym info</p>
+          <code>
+{
+  "id": "Integer",
+  "name": "String"
+  "description": "String",
+  "owner": "String",
+  "address": "String",
+  "timestamp": "Integer"
+}
+          </code>
+        </div>
+        <div class="api">
+          <h2>/api/v1/members?token={your token}</h2>
+          <p>Fetch the gym members data</p>
+          <code>
+[
+  {
+    "membersCount":
+    {
+      "all": "Integer",
+      "active": "Integer",
+      "expiresSoon": "Integer",
+      "expired": "Integer"
+    },
+    "membersList": 
+    [
+      {
+        "id": "Integer",
+        "name": "String",
+        "plan": "String",
+        "status": "String",
+        "duration": "Integer",
+        "isAttended": "Boolean",
+        "timestamp": "Integer",
+        "details": 
+        {
+          "email": "String",
+          "phone": "Integer",
+          "birthday': "Integer",
+          "note": "String"
+        }
+      }
+    ]
+  }
+]
+          </code>
+        </div>
+        <div class="api">
+          <h2>/api/v1/attendance?token={your token}</h2>
+          <p>Fetch the gym saved last 7 days attendance data</p>
+          <code>
+[
+  {
+    "day1":
+    {
+      "attended": "Integer",
+      "absence": "Integer"
+    },
+    "day2":
+    {
+      "attended": "Integer",
+      "absence": "Integer"
+    },
+    "day3":
+    {
+      "attended": "Integer",
+      "absence": "Integer"
+    },
+    "day4":
+    {
+      "attended": "Integer",
+      "absence": "Integer
+    },
+    "day5":
+    {
+      "attended": "Integer",
+      "absence": "Integer"
+    },
+    "day6":
+    {
+      "attended": "Integer",
+      "absence": "Integer"
+    },
+    "day7":
+    {
+      "attended": "Integer",
+      "absence": "Integer"
+    }
+  }
+]
+          </code>
+      </div>
+    </div>
+</body>
+</html>
