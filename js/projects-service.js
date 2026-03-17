@@ -7,7 +7,6 @@ import {
 import { db } from "./firebase-config.js";
 
 const projectsCollection = collection(db, "projects");
-const ADMIN_WRITE_KEY = "InfinityDev25!";
 
 const fallbackProjects = [
   {
@@ -85,8 +84,7 @@ export async function addProject(projectData) {
     imageUrl: projectData.imageUrl.trim(),
     badge: projectData.badge.trim() || "Project",
     ctaText: projectData.ctaText.trim() || "Open",
-    createdAt: Date.now(),
-    adminKey: ADMIN_WRITE_KEY
+    createdAt: Date.now()
   };
 
   return addDoc(projectsCollection, payload);
