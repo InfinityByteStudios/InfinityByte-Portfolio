@@ -58,11 +58,7 @@ export async function fetchProjects() {
   const projectsCollection = await getProjectsCollection();
   const snapshot = await getDocs(query(projectsCollection));
 
-  if (snapshot.empty) {
-    return fallbackProjects;
-  }
-
-  const projects = snapshot.docs.map((doc) => {
+  const firestoreProjects = snapshot.docs.map((doc) => {
     const data = doc.data();
     return {
       id: doc.id,
@@ -76,6 +72,18 @@ export async function fetchProjects() {
     };
   });
 
+  const existingKeys = new Set(
+    firestoreProjects.map((project) => {
+      return (project.title + "|" + project.url).trim().toLowerCase();
+    })
+  );
+
+  const missingFallbacks = fallbackProjects.filter((project) => {
+    const key = (project.title + "|" + project.url).trim().toLowerCase();
+    return !existingKeys.has(key);
+  });
+
+  const projects = [...firestoreProjects, ...missingFallbacks];
   projects.sort((a, b) => b.createdAt - a.createdAt);
   return projects;
 }
