@@ -3,3 +3,6 @@
 
 # Local runtime environment values
 .env
+
+# Local Firebase CLI project alias
+.firebaserc
