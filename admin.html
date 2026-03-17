@@ -12,7 +12,7 @@
         <section class="admin-card" id="loginCard">
             <h1>Project Admin</h1>
             <p>Sign in with your Firebase admin email and password.</p>
-            <form id="loginForm">
+            <form id="loginForm" onsubmit="return false;">
                 <label for="adminEmail">Email</label>
                 <input id="adminEmail" type="email" required autocomplete="email">
 
@@ -27,7 +27,7 @@
         <section class="admin-card hidden" id="projectCard">
             <h2>Add a Project</h2>
             <p id="signedInText" class="message"></p>
-            <form id="projectForm" class="project-form">
+            <form id="projectForm" class="project-form" onsubmit="return false;">
                 <label for="title">Project Title</label>
                 <input id="title" type="text" required>
 
@@ -53,6 +53,29 @@
             <a class="back-link" href="index.html">Back to Portfolio</a>
         </section>
     </main>
+
+    <script>
+        // Fallback guard: keep forms from full-page reload if module script fails.
+        window.addEventListener("DOMContentLoaded", () => {
+            const loginForm = document.getElementById("loginForm");
+            const projectForm = document.getElementById("projectForm");
+
+            if (loginForm) {
+                loginForm.addEventListener("submit", (event) => event.preventDefault());
+            }
+
+            if (projectForm) {
+                projectForm.addEventListener("submit", (event) => event.preventDefault());
+            }
+        });
+
+        window.addEventListener("error", (event) => {
+            const authMessage = document.getElementById("authMessage");
+            if (authMessage) {
+                authMessage.textContent = "Script error: " + (event.message || "Unknown error");
+            }
+        });
+    </script>
 
     <script type="module">
         import { addProject } from "./js/projects-service.js";
@@ -152,8 +175,8 @@
             });
         }
 
-        initAuth().catch(() => {
-            authMessage.textContent = "Could not initialize authentication. Check Firebase config.";
+        initAuth().catch((error) => {
+            authMessage.textContent = "Auth init error: " + (error.message || "Unknown error");
         });
     </script>
 </body>
