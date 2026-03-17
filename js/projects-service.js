@@ -4,9 +4,12 @@ import {
   getDocs,
   query
 } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-import { db } from "./firebase-config.js";
+import { getDb } from "./firebase-config.js";
 
-const projectsCollection = collection(db, "projects");
+async function getProjectsCollection() {
+  const db = await getDb();
+  return collection(db, "projects");
+}
 
 const fallbackProjects = [
   {
@@ -52,6 +55,7 @@ const fallbackProjects = [
 ];
 
 export async function fetchProjects() {
+  const projectsCollection = await getProjectsCollection();
   const snapshot = await getDocs(query(projectsCollection));
 
   if (snapshot.empty) {
@@ -77,6 +81,8 @@ export async function fetchProjects() {
 }
 
 export async function addProject(projectData) {
+  const projectsCollection = await getProjectsCollection();
+
   const payload = {
     title: projectData.title.trim(),
     description: projectData.description.trim(),

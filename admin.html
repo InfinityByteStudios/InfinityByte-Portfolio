@@ -9,19 +9,24 @@
 </head>
 <body>
     <main class="admin-wrap">
-        <section class="admin-card" id="unlockCard">
+        <section class="admin-card" id="loginCard">
             <h1>Project Admin</h1>
-            <p>Enter the admin password to add new projects.</p>
-            <form id="passwordForm">
+            <p>Sign in with your Firebase admin email and password.</p>
+            <form id="loginForm">
+                <label for="adminEmail">Email</label>
+                <input id="adminEmail" type="email" required autocomplete="email">
+
                 <label for="adminPassword">Password</label>
                 <input id="adminPassword" type="password" required autocomplete="current-password">
-                <button type="submit">Unlock</button>
+
+                <button type="submit">Sign In</button>
             </form>
-            <p id="passwordMessage" class="message"></p>
+            <p id="authMessage" class="message"></p>
         </section>
 
         <section class="admin-card hidden" id="projectCard">
             <h2>Add a Project</h2>
+            <p id="signedInText" class="message"></p>
             <form id="projectForm" class="project-form">
                 <label for="title">Project Title</label>
                 <input id="title" type="text" required>
@@ -43,6 +48,7 @@
 
                 <button type="submit">Save Project</button>
             </form>
+            <button id="logoutButton" type="button">Log Out</button>
             <p id="projectMessage" class="message"></p>
             <a class="back-link" href="index.html">Back to Portfolio</a>
         </section>
@@ -50,32 +56,66 @@
 
     <script type="module">
         import { addProject } from "./js/projects-service.js";
+        import { getApp } from "./js/firebase-config.js";
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signInWithEmailAndPassword,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
-        const ADMIN_PASSWORD = "InfinityDev25!";
-
-        const unlockCard = document.getElementById("unlockCard");
+        const loginCard = document.getElementById("loginCard");
         const projectCard = document.getElementById("projectCard");
-        const passwordForm = document.getElementById("passwordForm");
-        const passwordMessage = document.getElementById("passwordMessage");
+        const loginForm = document.getElementById("loginForm");
+        const authMessage = document.getElementById("authMessage");
+        const signedInText = document.getElementById("signedInText");
+        const logoutButton = document.getElementById("logoutButton");
         const projectForm = document.getElementById("projectForm");
         const projectMessage = document.getElementById("projectMessage");
 
-        passwordForm.addEventListener("submit", (event) => {
-            event.preventDefault();
-            const enteredPassword = document.getElementById("adminPassword").value;
+        let auth;
 
-            if (enteredPassword !== ADMIN_PASSWORD) {
-                passwordMessage.textContent = "Incorrect password. Try again.";
-                return;
+        function setAdminVisible(isVisible) {
+            if (isVisible) {
+                loginCard.classList.add("hidden");
+                projectCard.classList.remove("hidden");
+            } else {
+                loginCard.classList.remove("hidden");
+                projectCard.classList.add("hidden");
             }
+        }
 
-            passwordMessage.textContent = "";
-            unlockCard.classList.add("hidden");
-            projectCard.classList.remove("hidden");
+        loginForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            authMessage.textContent = "Signing in...";
+
+            const email = document.getElementById("adminEmail").value.trim();
+            const password = document.getElementById("adminPassword").value;
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                authMessage.textContent = "";
+            } catch (error) {
+                authMessage.textContent = "Sign in failed. Check email/password and try again.";
+            }
+        });
+
+        logoutButton.addEventListener("click", async () => {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                projectMessage.textContent = "Could not log out right now.";
+            }
         });
 
         projectForm.addEventListener("submit", async (event) => {
             event.preventDefault();
+
+            if (!auth.currentUser) {
+                projectMessage.textContent = "Sign in is required before saving.";
+                return;
+            }
+
             projectMessage.textContent = "Saving project...";
 
             const data = {
@@ -94,6 +134,26 @@
             } catch (error) {
                 projectMessage.textContent = "Could not save project. Check Firebase rules and try again.";
             }
+        });
+
+        async function initAuth() {
+            const app = await getApp();
+            auth = getAuth(app);
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    signedInText.textContent = "Signed in as " + user.email;
+                    setAdminVisible(true);
+                } else {
+                    signedInText.textContent = "";
+                    projectMessage.textContent = "";
+                    setAdminVisible(false);
+                }
+            });
+        }
+
+        initAuth().catch(() => {
+            authMessage.textContent = "Could not initialize authentication. Check Firebase config.";
         });
     </script>
 </body>

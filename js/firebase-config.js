@@ -2,27 +2,47 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/fireba
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 import { getAnalytics, isSupported } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-analytics.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBvDfTBfnA39Zr5QL6ABs-WuKbT108s6rs",
-  authDomain: "infinitybyteportfolio.firebaseapp.com",
-  projectId: "infinitybyteportfolio",
-  storageBucket: "infinitybyteportfolio.firebasestorage.app",
-  messagingSenderId: "596641776462",
-  appId: "1:596641776462:web:3168a5a2a20c465418941f",
-  measurementId: "G-8D2DRBQE5B"
-};
+let firebaseStatePromise;
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+async function loadFirebaseConfig() {
+  const response = await fetch("/.netlify/functions/firebase-config");
 
-isSupported()
-  .then((supported) => {
-    if (supported) {
-      getAnalytics(app);
-    }
-  })
-  .catch(() => {
-    // Ignore analytics setup errors in unsupported environments.
-  });
+  if (!response.ok) {
+    throw new Error("Failed to load Firebase runtime config.");
+  }
 
-export { app, db };
+  return response.json();
+}
+
+async function getFirebaseState() {
+  if (!firebaseStatePromise) {
+    firebaseStatePromise = loadFirebaseConfig().then((firebaseConfig) => {
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      isSupported()
+        .then((supported) => {
+          if (supported) {
+            getAnalytics(app);
+          }
+        })
+        .catch(() => {
+          // Ignore analytics setup errors in unsupported environments.
+        });
+
+      return { app, db };
+    });
+  }
+
+  return firebaseStatePromise;
+}
+
+export async function getApp() {
+  const state = await getFirebaseState();
+  return state.app;
+}
+
+export async function getDb() {
+  const state = await getFirebaseState();
+  return state.db;
+}
