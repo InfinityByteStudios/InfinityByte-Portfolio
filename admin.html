@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfinityByte Admin</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <main class="admin-wrap">
+        <section class="admin-card" id="unlockCard">
+            <h1>Project Admin</h1>
+            <p>Enter the admin password to add new projects.</p>
+            <form id="passwordForm">
+                <label for="adminPassword">Password</label>
+                <input id="adminPassword" type="password" required autocomplete="current-password">
+                <button type="submit">Unlock</button>
+            </form>
+            <p id="passwordMessage" class="message"></p>
+        </section>
+
+        <section class="admin-card hidden" id="projectCard">
+            <h2>Add a Project</h2>
+            <form id="projectForm" class="project-form">
+                <label for="title">Project Title</label>
+                <input id="title" type="text" required>
+
+                <label for="description">Description</label>
+                <textarea id="description" required></textarea>
+
+                <label for="url">Project URL</label>
+                <input id="url" type="url" required>
+
+                <label for="imageUrl">Image URL or Relative Path</label>
+                <input id="imageUrl" type="text" placeholder="Assests/Project Logos/example.png" required>
+
+                <label for="badge">Badge</label>
+                <input id="badge" type="text" placeholder="Game Project">
+
+                <label for="ctaText">Button Text</label>
+                <input id="ctaText" type="text" placeholder="Visit Site">
+
+                <button type="submit">Save Project</button>
+            </form>
+            <p id="projectMessage" class="message"></p>
+            <a class="back-link" href="index.html">Back to Portfolio</a>
+        </section>
+    </main>
+
+    <script type="module">
+        import { addProject } from "./js/projects-service.js";
+
+        const ADMIN_PASSWORD = "InfinityDev25!";
+
+        const unlockCard = document.getElementById("unlockCard");
+        const projectCard = document.getElementById("projectCard");
+        const passwordForm = document.getElementById("passwordForm");
+        const passwordMessage = document.getElementById("passwordMessage");
+        const projectForm = document.getElementById("projectForm");
+        const projectMessage = document.getElementById("projectMessage");
+
+        passwordForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const enteredPassword = document.getElementById("adminPassword").value;
+
+            if (enteredPassword !== ADMIN_PASSWORD) {
+                passwordMessage.textContent = "Incorrect password. Try again.";
+                return;
+            }
+
+            passwordMessage.textContent = "";
+            unlockCard.classList.add("hidden");
+            projectCard.classList.remove("hidden");
+        });
+
+        projectForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            projectMessage.textContent = "Saving project...";
+
+            const data = {
+                title: document.getElementById("title").value,
+                description: document.getElementById("description").value,
+                url: document.getElementById("url").value,
+                imageUrl: document.getElementById("imageUrl").value,
+                badge: document.getElementById("badge").value,
+                ctaText: document.getElementById("ctaText").value
+            };
+
+            try {
+                await addProject(data);
+                projectMessage.textContent = "Project saved. It will appear on your homepage after refresh.";
+                projectForm.reset();
+            } catch (error) {
+                projectMessage.textContent = "Could not save project. Check Firebase rules and try again.";
+            }
+        });
+    </script>
+</body>
+</html>
