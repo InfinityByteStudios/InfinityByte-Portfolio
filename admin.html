@@ -151,11 +151,12 @@
             };
 
             try {
-                await addProject(data);
+                const idToken = await auth.currentUser.getIdToken();
+                await addProject(data, idToken);
                 projectMessage.textContent = "Project saved. It will appear on your homepage after refresh.";
                 projectForm.reset();
             } catch (error) {
-                projectMessage.textContent = "Could not save project. Check Firebase rules and try again.";
+                projectMessage.textContent = error.message || "Could not save project. Try signing in again.";
             }
         });
 

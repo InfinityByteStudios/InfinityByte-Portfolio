@@ -1,16 +1,3 @@
-import {
-  addDoc,
-  collection,
-  getDocs,
-  query
-} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-import { getDb } from "./firebase-config.js";
-
-async function getProjectsCollection() {
-  const db = await getDb();
-  return collection(db, "projects");
-}
-
 const fallbackProjects = [
   {
     title: "Glitchrealm Games",
@@ -55,27 +42,35 @@ const fallbackProjects = [
 ];
 
 export async function fetchProjects() {
-  const projectsCollection = await getProjectsCollection();
-  const snapshot = await getDocs(query(projectsCollection));
+  let dbProjects = [];
+  try {
+    const response = await fetch("/api/projects", {
+      headers: { Accept: "application/json" }
+    });
 
-  const firestoreProjects = snapshot.docs.map((doc) => {
-    const data = doc.data();
-    return {
-      id: doc.id,
-      title: data.title || "Untitled Project",
-      description: data.description || "",
-      url: data.url || "#",
-      imageUrl: data.imageUrl || "",
-      badge: data.badge || "Project",
-      ctaText: data.ctaText || "Open",
-      createdAt: Number(data.createdAt) || 0
-    };
-  });
+    if (response.ok) {
+      const payload = await response.json();
+      dbProjects = Array.isArray(payload.projects) ? payload.projects : [];
+    } else {
+      console.warn("Projects API returned " + response.status + "; using fallback list.");
+    }
+  } catch (error) {
+    console.warn("Projects API request failed; using fallback list.", error);
+  }
+
+  const normalized = dbProjects.map((project) => ({
+    id: project.id,
+    title: project.title || "Untitled Project",
+    description: project.description || "",
+    url: project.url || "#",
+    imageUrl: project.imageUrl || "",
+    badge: project.badge || "Project",
+    ctaText: project.ctaText || "Open",
+    createdAt: Number(project.createdAt) || 0
+  }));
 
   const existingKeys = new Set(
-    firestoreProjects.map((project) => {
-      return (project.title + "|" + project.url).trim().toLowerCase();
-    })
+    normalized.map((project) => (project.title + "|" + project.url).trim().toLowerCase())
   );
 
   const missingFallbacks = fallbackProjects.filter((project) => {
@@ -83,23 +78,47 @@ export async function fetchProjects() {
     return !existingKeys.has(key);
   });
 
-  const projects = [...firestoreProjects, ...missingFallbacks];
+  const projects = [...normalized, ...missingFallbacks];
   projects.sort((a, b) => b.createdAt - a.createdAt);
   return projects;
 }
 
-export async function addProject(projectData) {
-  const projectsCollection = await getProjectsCollection();
+export async function addProject(projectData, idToken) {
+  if (!idToken) {
+    throw new Error("Sign-in token is required to save a project.");
+  }
 
   const payload = {
     title: projectData.title.trim(),
     description: projectData.description.trim(),
     url: projectData.url.trim(),
     imageUrl: projectData.imageUrl.trim(),
-    badge: projectData.badge.trim() || "Project",
-    ctaText: projectData.ctaText.trim() || "Open",
-    createdAt: Date.now()
+    badge: (projectData.badge || "").trim() || "Project",
+    ctaText: (projectData.ctaText || "").trim() || "Open"
   };
 
-  return addDoc(projectsCollection, payload);
+  const response = await fetch("/api/projects", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + idToken
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    let message = "Could not save project.";
+    try {
+      const data = await response.json();
+      if (data && data.error) {
+        message = data.error;
+      }
+    } catch (error) {
+      // Ignore parse error and use default message.
+    }
+    throw new Error(message);
+  }
+
+  const data = await response.json();
+  return data.project;
 }

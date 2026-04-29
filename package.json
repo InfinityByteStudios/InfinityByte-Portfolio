@@ -1,0 +1,9 @@
+{
+  "name": "infinitybyte-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "InfinityByte portfolio site backed by Netlify Functions and Netlify Database.",
+  "dependencies": {
+    "@netlify/database": "^0.7.0"
+  }
+}
