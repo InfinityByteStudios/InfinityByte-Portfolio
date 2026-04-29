@@ -2,8 +2,17 @@
   publish = "."
   functions = "netlify/functions"
 
+[functions]
+  node_bundler = "esbuild"
+
 [[redirects]]
   from = "/api/firebase-config"
   to = "/.netlify/functions/firebase-config"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/projects"
+  to = "/.netlify/functions/projects"
   status = 200
   force = true
