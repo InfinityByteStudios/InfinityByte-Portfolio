@@ -52,4 +52,8 @@ async function renderProjects() {
   }
 }
 
-window.addEventListener("DOMContentLoaded", renderProjects);
+if (document.readyState === 'loading') {
+  window.addEventListener("DOMContentLoaded", renderProjects);
+} else {
+  renderProjects();
+}
